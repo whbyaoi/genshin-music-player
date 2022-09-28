@@ -1,5 +1,5 @@
 import os
-from MyMap import DIGIT_TO_KEY
+from MyMap import DIGIT_TO_KEY, KEY_TO_DIGIT
 
 
 class Note:
@@ -29,19 +29,32 @@ class sheetDecomposer:
 
     def export(self):
         rs = ''
+        noteCount = 0
         for note in self.sheet:
             if note.keys[0] == '&':
-                rs += note.keys + '&\n'
+                rs += note.keys + '&'
             else:
+                noteCount += 1
                 if len(note.keys) > 1:
-                    rs += '({})'.format(note.keys)
-                else:
-                    rs += note.keys
-                rs += '={}=\n'.format(note.duration)
-        print(rs)
+                    rs += '('
+                    for key in note.keys:
+                        rs += KEY_TO_DIGIT[key]
 
-    def load(self, fileName: str):
+                    rs += ')'
+                else:
+                    rs += KEY_TO_DIGIT[note.keys]
+                rs += '={}='.format(note.duration)
+                if noteCount % 4 == 0:
+                    rs += '\n'
+                if noteCount % 16 == 0:
+                    rs += '\n'
+        return rs
+
+    def loadSheet(self, fileName: str):
         """ 载入乐谱 """
+        self.sheet = []
+        self.charStack = ''
+        self.defaultDuration = 0.5
         curDir = os.getcwd()
         fileDir = curDir + '/sheets/{}'.format(fileName)
         file = open(fileDir, 'r', encoding='utf8')
@@ -170,6 +183,9 @@ class sheetDecomposer:
             #     else:
             #         pass
 
+    def loadSlice(self, slice: str):
+        pass
+
     def resetStack(self):
         self.charStack = ''
 
@@ -195,6 +211,6 @@ class sheetDecomposer:
 
 if __name__ == "__main__":
     sheetDec = sheetDecomposer()
-    sheetDec.load('兰亭序_76_.txt')
+    sheetDec.loadSheet('兰亭序_76_.txt')
     # print(sheetDec.sheet)
-    # sheetDec.export()
+    sheetDec.export()

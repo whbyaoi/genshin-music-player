@@ -7,7 +7,7 @@
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
-
+import PySide6
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
                             QMetaObject, QObject, QPoint, QRect,
                             QSize, QTime, QUrl, Qt)
@@ -17,24 +17,25 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
                            QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QGroupBox, QHBoxLayout, QLabel,
                                QListWidget, QListWidgetItem, QPushButton, QSizePolicy,
-                               QSpinBox, QVBoxLayout, QWidget, QDoubleSpinBox)
+                               QSpinBox, QVBoxLayout, QWidget, QDoubleSpinBox, QTextBrowser)
 
 
 class Ui_Form(object):
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")
-        Form.resize(400, 300)
-        self.verticalLayout = QVBoxLayout(Form)
-        self.verticalLayout.setObjectName(u"verticalLayout")
+        Form.resize(800, 300)
+        self.mainHorizontalLayout = QHBoxLayout(Form)
+        self.mainHorizontalLayout.setContentsMargins(10, 10, 10, 10)
+
+        self.leftWidget = QWidget(Form)
+        self.verticalLayout = QVBoxLayout(self.leftWidget)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.groupBox = QGroupBox(Form)
-        self.groupBox.setObjectName(u"groupBox")
         self.verticalLayout_2 = QVBoxLayout(self.groupBox)
         self.verticalLayout_2.setSpacing(0)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.listWidget = QListWidget(self.groupBox)
-        self.listWidget.setObjectName(u"listWidget")
         self.listWidget.setSelectionMode(QListWidget.SelectionMode.SingleSelection)
 
         self.verticalLayout_2.addWidget(self.listWidget)
@@ -42,41 +43,39 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.groupBox)
 
         self.widget = QWidget(Form)
-        self.widget.setObjectName(u"widget")
         self.horizontalLayout = QHBoxLayout(self.widget)
         self.horizontalLayout.setSpacing(2)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.label = QLabel(self.widget)
-        self.label.setObjectName(u"label")
-
-        self.horizontalLayout.addWidget(self.label)
-
-        self.spinBox = QDoubleSpinBox(self.widget)
-        self.spinBox.setObjectName(u"spinBox")
-
-        self.horizontalLayout.addWidget(self.spinBox)
 
         self.pushButton = QPushButton(self.widget)
-        self.pushButton.setObjectName(u"pushButton")
-
         self.horizontalLayout.addWidget(self.pushButton)
 
-        self.horizontalLayout.setStretch(0, 1)
-        self.horizontalLayout.setStretch(1, 2)
-        self.horizontalLayout.setStretch(2, 4)
+        self.pushButton2 = QPushButton(self.widget)
+        self.pushButton2.setText('试听')
+        self.horizontalLayout.addWidget(self.pushButton2)
 
+        self.horizontalLayout.setStretch(0, 1)
+        self.horizontalLayout.setStretch(1, 1)
         self.verticalLayout.addWidget(self.widget)
+        self.mainHorizontalLayout.addWidget(self.leftWidget)
+
+        self.textBrowser = QTextBrowser()
+        self.textBrowser.setReadOnly(False)
+        self.textBrowser.setUndoRedoEnabled(True)
+        self.textBrowser.setWordWrapMode(PySide6.QtGui.QTextOption.WrapMode.NoWrap)
+        self.mainHorizontalLayout.addWidget(self.textBrowser)
+
+        self.mainHorizontalLayout.setStretch(0, 1)
+        self.mainHorizontalLayout.setStretch(1, 3)
 
         self.retranslateUi(Form)
 
         QMetaObject.connectSlotsByName(Form)
 
-    # setupUi
+        # setupUi
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Genshin Music Player", None))
         self.groupBox.setTitle(QCoreApplication.translate("Form", u"\u4e50\u8c31\u5217\u8868", None))
-        self.label.setText(QCoreApplication.translate("Form", u"\u5ef6\u65f6(\u79d2)\uff1a", None))
         self.pushButton.setText(QCoreApplication.translate("Form", u"\u8fd0\u884c", None))
     # retranslateUi
